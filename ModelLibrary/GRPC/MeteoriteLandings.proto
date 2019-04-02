@@ -1,0 +1,47 @@
+﻿syntax = "proto3";
+
+package MeteoriteLandingsService;
+
+option csharp_namespace = "ModelLibrary.GRPC";
+
+import "google/protobuf/timestamp.proto";
+
+service MeteoriteLandingsService {
+	rpc GetVersion(EmptyRequest) returns (Version) {}
+	rpc GetLargePayload(EmptyRequest) returns (stream MeteoriteLanding) {}
+	rpc GetLargePayloadAsList(EmptyRequest) returns (MeteoriteLandingList) {}
+	rpc PostLargePayload(MeteoriteLandingList) returns (StatusResponse) {}
+}
+
+message EmptyRequest {
+}
+
+message StatusResponse {
+	string status = 1;
+}
+
+message Version {
+	string api_version = 1;
+}
+
+message GeoLocation {
+	string type = 1;
+	repeated double coordinates = 2;
+}
+
+message MeteoriteLanding {
+	uint32 id = 1;
+	string name = 2;
+	string fall = 3;
+	GeoLocation geolocation = 4;
+	double mass = 5;
+	string nametype = 6;
+	string recclass = 7;
+	double reclat = 8;
+	double reclong = 9;
+	google.protobuf.Timestamp year = 10;
+}
+
+message MeteoriteLandingList {
+	repeated MeteoriteLanding MeteoriteLandings = 1;
+}
